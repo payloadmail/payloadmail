@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> PayloadMail </title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{% static 'mail/homestyle.css' %}">
+		<script src="{% static 'mail/homescript.js' %}"></script>
+	</head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<body>
+		<div class="navbar-home">
+			<div class="navbar-logo">
+				<img src="{% static 'mail/logo.png' %}" alt="logo" class="logo">
+			</div>
+			<form class="delete" method="POST">
+				{{delete.as_p}}
+						{% csrf_token %}
+			<button type="delete" name="delete" value="{{user}}" class="button btn-delete">Clear All
+				<i class="fa fa-trash-o"></i>
+			</button>
+			</form>
+			<div class="navbar-name">
+				PayloadMail
+			</div>
+			<div class="navbar-user">
+				<button class="btn btn-user" type="button user">
+					{{username}}
+					<i class="fa fa-user"></i>
+				</button>
+			</div>
+			<div class="navbar-logout">
+				<form class="logout" method="POST">
+					{{logout.as_p}}
+							{% csrf_token %}
+				<button type="logout" name="logout" value="{{user}}" class="button btn-logout">Logout
+					<i class="fa fa-sign-out"></i>
+				</button>
+				</form>
+			</div>
+		</div>
+		{% for mail in emails %}
+		<div class="mail" id="mail">
+			<div class="rv_button_{{ forloop.counter }} row mailheader">
+				<div class="mailrow">
+					Recipient: {{mail.recipient}}
+					<br>
+					{{mail.subject}}
+				</div>
+			</div>
+		</div>
+		<div class="mailbody rv_button_body_{{ forloop.counter }} textbody" id="reveal_{{ forloop.counter }}">
+			<div class="mailviews">
+			  <ul class="nav nav-tabs">
+			    <li class="nav-item">
+			      <a class="nav-link active" data-toggle="tab" href="#textview_{{ forloop.counter }}">Text</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" data-toggle="tab" href="#styleview_{{ forloop.counter }}">Style</a>
+			    </li>
+			    <li class="nav-item">
+			      <a class="nav-link" data-toggle="tab" href="#rawview_{{ forloop.counter }}">Raw</a>
+			    </li>
+			  </ul>
+			  <div class="tab-content">
+			    <div id="textview_{{ forloop.counter }}" class="container tab-pane active"><br>
+						<div class="headers">
+							Recipient: {{mail.recipient}}
+
+							Subject: {{mail.subject}}
+
+							From: {{mail.sender}}
+
+							Reply to: {{mail.replyto}}
+
+							{{mail.date}}
+						</div>
+						<div class="msg">
+							{{mail.message}}
+						</div>
+						<div class="attachments">
+							{% for attachment in mail.attachments %}
+							<button class="btn btn-attachment" value=""
+								onclick="loadFile('{{attachment.0}}', '{{attachment.1}}',
+								'{{attachment.2}}','{{attachment.3|escapejs}}')">{{attachment.1}}
+							</button>
+							{% endfor %}
+						</div>
+			    </div>
+			    <div id="styleview_{{ forloop.counter }}" class="container tab-pane fade"><br>
+			    	<div class="headers">
+			    		Recipient: {{mail.recipient}}
+
+			    		Subject: {{mail.subject}}
+
+			    		From: {{mail.sender}}
+
+			    		Reply to: {{mail.replyto}}
+
+			    		{{mail.date}}
+			    	</div>
+			    	<div class="msg">
+			    	</div>
+			    	<div class="row attachments">
+			    		{% for attachment in mail.attachments %}
+			    		<button class="btn btn-attachment" value=""
+			    			onclick="loadFile('{{attachment.0}}', '{{attachment.1}}',
+			    			'{{attachment.2}}','{{attachment.3|escapejs}}')">{{attachment.1}}
+			    		</button>
+			    	{% endfor %}
+			    </div>
+			</div>
+			    <div id="rawview_{{ forloop.counter }}" class="container tab-pane fade"><br>
+						{{mail.raw}}
+			    </div>
+  			</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			createLinks('styleview_{{ forloop.counter }}','{{mail.message|escapejs}}');
+		</script>
+		{% endfor %}
+	</body>
+	<footer class="page-footer font-small blue">
+		<div class="footer text-center py-3">© Project:
+			<a class="link" href="https://github.com/payloadmail"> Github.com</a>
+		</div>
+	</footer>
+</html>

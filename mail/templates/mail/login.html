@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="{% static 'mail/login_style.css' %}">
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <body>
+		<div class="navbar-login">
+			<div class="navbar-name">
+				PayloadMail
+			</div>
+		</div>
+		<div class="container login">
+			<div class="logo">
+					<img src=" {% static 'mail/logo.png' %}" alt="avatar" class="avatar">
+			</div>
+	    <form class="container login_info" method="POST">
+	      {% csrf_token %}
+        	{{login.as_p}}
+	        <input type="text" name="username" placeholder="Username">
+	        <input type="password" name="password" placeholder="Password">
+	        <button type="submit" name="login" class="btn btn-login">Sign in</button>
+	    </form>
+		</div>
+  </body>
+	<footer class="page-footer font-small blue">
+		<div class="footer text-center py-3">© Project:
+			<a class="link" href="https://github.com/payloadmail"> Github.com</a>
+		</div>
+	</footer>
+</html>

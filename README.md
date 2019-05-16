@@ -11,13 +11,16 @@ Technically you only need to have mailbox in Maildir format located in /home/use
 Python 3 (3.6.7)
 
 [pip](https://pip.pypa.io/en/stable/)
-'apt-get install python3-pip'
+
+`apt-get install python3-pip`
 
 [Django](https://www.djangoproject.com/)
-'pip install django'
+
+`pip install django`
 
 [python-pam](https://pypi.org/project/python-pam/)
-'pip3 install python-pam'
+
+`pip3 install python-pam`
 
 
 **Installation and usage**

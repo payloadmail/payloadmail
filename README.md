@@ -16,7 +16,7 @@ Python 3 (3.6.7)
 
 [Django](https://www.djangoproject.com/)
 
-`pip install django`
+`pip3 install django`
 
 [python-pam](https://pypi.org/project/python-pam/)
 
